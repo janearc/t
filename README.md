@@ -59,7 +59,7 @@ are false, `1`, `.023`, and `yes` are true.
 
 Accordingly, `ended isnt true` looks for a value in the heap called `ended`,
 and whether that value is truthy. Since `ended` is not actually defined, it is
-a falsey value, making the statement `ended isnt true`, and the interpereter
+a falsey value, making the statement `ended isnt true` *true*, and the interpereter
 seeks forward until the next declarative. In this case, the following print
 statements fire, and the interpeter seeks forward until a statement without an
 `and`, which is either a declarative or a test.
