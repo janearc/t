@@ -63,14 +63,41 @@ tfile.toString().split( "\n" ).forEach( function (line) {
 	console.log( 'line: ' + line );
 } );
 
-function tokeparser (line) {
+function tokeparser (line, previous) {
 	// Tokeparser takes a given line and returns the tokens therein. This would
 	// be barewords and operators as well as strings bracketed by ticks and
 	// double-ticks.
 	//
 
-	if (! /('|")/.exec( line )) {
-		// No quoting, just send it back to the caller, split
+	var characters = line.split('');
+
+	var words = [ ];
+
+	while (characters.length) {
+		var word   = '';
+		var inword = true;
+		while (inword) {
+			// Note, we do not understand interpolation right now.
+			//
+			var quoted = false;
+
+			var thischar = characters.shift();
+			if (thischar.length && (thischar != ' ') && (thischar != "\t")) {
+				// Appears this is a \S-type character, push it into the word
+				//
+				word += thischar;
+			}
+			else {
+				inword = false;
+			}
+		}
+
+		// We have finished a word, push it into words.
 		//
+		words.push( word );
+
+		// Clean up the wordbuffer
+		//
+		word = '';
 	}
 }
