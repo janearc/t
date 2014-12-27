@@ -1,6 +1,6 @@
 T
 ===
-T is a toy language jane is making for herself. let's look at the hello world
+T is a toy language Jane is making for herself. let's look at the hello world
 example provided:
 
 ```
@@ -93,3 +93,11 @@ The second time through the `ok, end` block, we notice that because `ended` is
 in fact truthy, the two `push` statements are not executed. Because they are
 not executed, and the stack is empty when `bye` is encountered, causing the
 interpeter to clean up and exit.
+
+author
+===
+[jane arc](http://github.com/janearc), 2014-2015. created from abject boredom
+and a need to understand why language designers design languages so poorly
+(sometimes).
+
+if you use this somewhere, let me know.
