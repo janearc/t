@@ -58,3 +58,19 @@ var parsed = require( 'sendak-usage' ).parsedown( {
 }, process.argv ), nopt = parsed[0];
 
 var tfile = require('fs').readFileSync( nopt['t-file'] );
+
+tfile.toString().split( "\n" ).forEach( function (line) {
+	console.log( 'line: ' + line );
+} );
+
+function tokeparser (line) {
+	// Tokeparser takes a given line and returns the tokens therein. This would
+	// be barewords and operators as well as strings bracketed by ticks and
+	// double-ticks.
+	//
+
+	if (! /('|")/.exec( line )) {
+		// No quoting, just send it back to the caller, split
+		//
+	}
+}
