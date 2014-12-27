@@ -39,10 +39,11 @@ assignment, it will all be read as one statement, and have one scope, one
 variable* from the previous line, and the word `it` is syntactic sugar,
 referring only to `this`.
 
-The directive is `print it`, meaning "print 'this' from the `shift stack`
+The directive is `print it`, meaning "print '`this`' from the `shift stack`
 statement." `print` is a builtin, doing what you would expect.
 
-The first clause effectively then says "print everything in the stack." 
+The first clause effectively then says "print everything in the stack." (note:
+on the first run through, there is nothing in the stack).
 
 The second clause is the specific `ok, end` clause. This is invoked at the end
 of the program.
