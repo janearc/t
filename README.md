@@ -53,7 +53,7 @@ is `ended isnt true`, comprised of `ended`, which is a bareword and ignored by
 the interpreter unless it is defined in the heap (implicitly: *barewords result
 in heap lookups*, which can be expensive if your heap is large). The `isnt`
 "operator" is equivalency, and `true` is what you would expect. Something that
-is `true` must be both defined (it exists in the heap) and its absolute value
+is `true` must be both defined (it exists in the heap) and its mathematical value
 must be non-zero. This is to say that values `-1`, `0`, and undefined values
 are false, `1`, `.023`, and `yes` are true.
 
