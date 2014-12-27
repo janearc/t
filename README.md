@@ -1,6 +1,6 @@
-t
+T
 ===
-t is a toy language jane is making for herself. let's look at the hello world
+T is a toy language jane is making for herself. let's look at the hello world
 example provided:
 
 ```
