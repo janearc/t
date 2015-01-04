@@ -3,22 +3,21 @@
 'use strict';
 
 var T = require( 'singleton' ).get();
-var tokeparser = require( './lib/tokeparser' ).tokeparser;
 
-// Setup {{{
-//
+require( './lib/stdio'      ).init();
+require( './lib/list'       ).init();
+require( './lib/tokeparser' ).init();
+require( './lib/domain'     ).init();
+require( './lib/cli'        ).init();
 
 // Set up the T machine
 //
 T.heap      = { };
-T.stack     = [ ];
-T.statement = [ ];
 T.domain    = require( 'domain' ).create();
 
 // Functions expected to exist in T without definition there
 //
 T.builtins = {
-
 	// We hit something we really didn't expect, and should get out right away.
 	//
 	die:   function () { process.exit(-255) },
@@ -35,13 +34,6 @@ T.builtins = {
 	//
 	jsonp: function (s) { return JSON.stringify( s, null, 2 ) },
 };
-
-// Error handling in T
-//
-T.domain.on( 'error', function (e) {
-	console.log( 'uncaught error in T interpreter: ' + e );
-} );
-
 
 // The environment for T
 //
@@ -66,21 +58,6 @@ function arg_sanitise () {
 	//
 	return process.argv;
 }
-
-// }}}
-
-var parsed = require( 'sendak-usage' ).parsedown( {
-	't-file' : { description: 'the T file you\'d like to run', type: [ String ] },
-	'help'   : { description: 'some halps', type: [ Boolean ] }
-}, process.argv ), nopt = parsed[0], usage = parsed[1];
-
-if ((! nopt['t-file']) || (nopt['help'])) {
-	console.log( 'Usage: ' );
-	console.log( usage );
-	process.exit( -255 );
-}
-
-var tfile = require('fs').readFileSync( nopt['t-file'] );
 
 tfile.toString().split( "\n" ).forEach( function (line) {
 	var tokens = tokeparser( line );
