@@ -15,7 +15,6 @@ require( './lib/cli'        ).init();
 // Set up the T machine
 //
 T.heap      = { };
-T.domain    = require( 'domain' ).create();
 
 // Functions expected to exist in T without definition there
 //
