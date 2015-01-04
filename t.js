@@ -18,9 +18,6 @@ T.domain    = require( 'domain' ).create();
 // Functions expected to exist in T without definition there
 //
 T.builtins = {
-	// T's builtin "print" function just passes through to console.log
-	//
-	print: console.log,
 
 	// We hit something we really didn't expect, and should get out right away.
 	//
@@ -37,17 +34,6 @@ T.builtins = {
 	// T needs to be able to read JSON.
 	//
 	jsonp: function (s) { return JSON.stringify( s, null, 2 ) },
-
-	// The T universe revolves around push, pop, shift, and their 'un' variants.
-	// No, there are no sacred cows. Quit asking.
-	//
-	push:    function (p) { return T.stack.push( p )    },
-	pop:     function (p) { return T.stack.pop( )       },
-	shift:   function (p) { return T.stack.shift( )     },
-	unpush:  function (p) { return T.stack.shift( )     },
-	unpop:   function (p) { return T.stack.push( p )    },
-	unshift: function (p) { return T.stack.unshift( p ) }
-
 };
 
 // Error handling in T
