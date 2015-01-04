@@ -4,6 +4,8 @@
 
 var T = require( 'singleton' ).get();
 
+T.builtins = { };
+
 require( './lib/stdio'      ).init();
 require( './lib/list'       ).init();
 require( './lib/tokeparser' ).init();
@@ -17,23 +19,22 @@ T.domain    = require( 'domain' ).create();
 
 // Functions expected to exist in T without definition there
 //
-T.builtins = {
-	// We hit something we really didn't expect, and should get out right away.
-	//
-	die:   function () { process.exit(-255) },
 
-	// T's internal "re-run the interpeter and see if the stack has changed.
-	// If respin() returns true, there's still something in the stack, and we
-	// re-execute, top-down. When that while() reaches false, we exit. This
-	// should eventually be some kind of grown-up cleanup process but that works
-	// for now.
-	//
-	bye:   function () { while (respin()) { /* NOP */ } process.exit(0) },
+// We hit something we really didn't expect, and should get out right away.
+//
+T.builtins.die = function () { process.exit(-255) },
 
-	// T needs to be able to read JSON.
-	//
-	jsonp: function (s) { return JSON.stringify( s, null, 2 ) },
-};
+// T's internal "re-run the interpeter and see if the stack has changed.
+// If respin() returns true, there's still something in the stack, and we
+// re-execute, top-down. When that while() reaches false, we exit. This
+// should eventually be some kind of grown-up cleanup process but that works
+// for now.
+//
+T.builtins.bye = function () { while (respin()) { /* NOP */ } process.exit(0) },
+
+// T needs to be able to read JSON.
+//
+T.builtins.jsonp = function (s) { return JSON.stringify( s, null, 2 ) },
 
 // The environment for T
 //
@@ -59,7 +60,7 @@ function arg_sanitise () {
 	return process.argv;
 }
 
-tfile.toString().split( "\n" ).forEach( function (line) {
-	var tokens = tokeparser( line );
+T.target.contents.toString().split( "\n" ).forEach( function (line) {
+	var tokens = T.tokeparser( line );
 	console.log( tokens );
 } );
