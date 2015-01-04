@@ -3,7 +3,7 @@
 'use strict';
 
 var T = require( 'singleton' ).get();
-var tokearser = require( 'lib/tokeparser' ).tokeparser;
+var tokeparser = require( './lib/tokeparser' ).tokeparser;
 
 // Setup {{{
 //
@@ -17,8 +17,25 @@ T.domain   = require( 'domain' ).create();
 // Functions expected to exist in T without definition there
 //
 T.builtins = {
+	// T's builtin "print" function just passes through to console.log
+	//
 	print: console.log,
-	die:   function () { process.exit(-255) }
+
+	// We hit something we really didn't expect, and should get out right away.
+	//
+	die:   function () { process.exit(-255) },
+
+	// T's internal "re-run the interpeter and see if the stack has changed.
+	// If respin() returns true, there's still something in the stack, and we
+	// re-execute, top-down. When that while() reaches false, we exit. This
+	// should eventually be some kind of grown-up cleanup process but that works
+	// for now.
+	//
+	bye:   function () { while (respin()) { /* NOP */ } process.exit(0) },
+
+	// T needs to be able to read JSON.
+	//
+	jsonp: function (s) { return JSON.stringify( s, null, 2 ) }
 };
 
 // Error handling in T
@@ -55,11 +72,19 @@ function arg_sanitise () {
 // }}}
 
 var parsed = require( 'sendak-usage' ).parsedown( {
-	't-file' : { description: 'the T file you\'d like to run', type: [ String ] }
-}, process.argv ), nopt = parsed[0];
+	't-file' : { description: 'the T file you\'d like to run', type: [ String ] },
+	'help'   : { description: 'some halps', type: [ Boolean ] }
+}, process.argv ), nopt = parsed[0], usage = parsed[1];
+
+if ((! nopt['t-file']) || (nopt['help'])) {
+	console.log( 'Usage: ' );
+	console.log( usage );
+	process.exit( -255 );
+}
 
 var tfile = require('fs').readFileSync( nopt['t-file'] );
 
 tfile.toString().split( "\n" ).forEach( function (line) {
-	console.log( 'line: ' + line );
+	var tokens = tokeparser( line );
+	console.log( tokens );
 } );
