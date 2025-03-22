@@ -2,7 +2,7 @@
 
 'use strict';
 
-var T = require( 'singleton' ).get();
+var T = require( './lib/context' );
 
 T.builtins = { };
 
